@@ -1,6 +1,7 @@
 from run_commands_on_vps import run_commands_on_vps
 from flask import Flask, render_template, request
 from executar_script import executar_comando_na_vps
+import paramiko
 
 app = Flask(__name__)
 

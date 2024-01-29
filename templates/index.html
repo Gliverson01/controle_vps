@@ -3,119 +3,181 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    
     <title>Controle de VPS</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-dZlRRZEj7LqBzTQPN7gw2BKhFIApNLG4tMI3z5L2au8Q1J2SBb02HlWtW3FlSb90" crossorigin="anonymous">
-    <style>
-        body {
-            background: linear-gradient(45deg, #FF00FF, #00FFFF, #FFFF00, #FF0000);
-            background-size: 400% 400%;
-            animation: gradient 15s ease infinite;
-            color: white;
-        }
-
-        @keyframes gradient {
-            0% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
-            100% {
-                background-position: 0% 50%;
-            }
-        }
-
-        .container {
-            margin-top: 50px;
-            color: #333; /* Cor do texto dentro do container */
-        }
-
-        .form-container {
-            background-color: rgba(255, 255, 255, 0.8);
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-        }
-
-        .btn-custom {
-            /* Botão Personalizado */
-            background-color: #FF6347; /* Tom de laranja escuro */
-            color: #fff;
-            border: 1px solid #FF4500; /* Tom de laranja mais claro */
-        }
-
-        .btn-custom:hover {
-            /* Efeito no Hover */
-            background-color: #FF4500;
-            color: #fff;
-        }
-    </style>
+    
 </head>
 <body>
-    <div class="container">
-        <div class="form-container">
-            <h1 class="mb-4">Atualizar Git</h1>
+    <div class="vps-commands">
+        <div class="att-vps">
+            <p>Atualizar GIT</p>
             <form method="post">
-                <div class="mb-3">
-                    <label for="num_vps" class="form-label">Número de VPS:</label>
-                    <input type="number" name="num_vps" class="form-control" id="num_vps" required>
+                <div class="num-vps">
+                    <label for="num_vps">Número de VPS:</label>
+                    <input type="number" name="num_vps" id="num_vps" required>
                 </div>
+                <button type="button" class="add-vps" onclick="addVPSField()">Adicionar VPS</button>
+                <button type="submit" class="button-exec">Executar Comandos</button>
                 <div id="vps_fields"></div>
-                <button type="button" class="btn btn-custom" onclick="addVPSField()">Adicionar VPS</button>
-                <button type="submit" class="btn btn-success btn-custom">Executar Comandos</button>
             </form>
-            <hr>
-            <h1 class="mb-4">Executar instala_resetV2.sh</h1>
-            <form method="post">
-                <div class="mb-3">
-                    <label for="hostname" class="form-label">IP da VPS:</label>
-                    <input type="text" name="hostname" class="form-control" id="hostname" required>
-                </div>
-                <div class="mb-3">
-                    <label for="password" class="form-label">Senha:</label>
-                    <input type="password" name="password" class="form-control" id="password" required>
-                </div>
-                <button type="submit" class="btn btn-success btn-custom">Executar Script</button>
-            </form>
-
-            {% if output %}
-                <div class="mt-4">
-                    <h3>Resultados:</h3>
-                    <pre>{{ output }}</pre>
-                </div>
-            {% endif %}
-
-            {% if error %}
-                <div class="mt-4">
-                    <h3>Erro:</h3>
-                    <pre>{{ error }}</pre>
-                </div>
-            {% endif %}
         </div>
+            
+        <div class="exec-reset">
+            <p>Executar o comando <i>instala_resetV2.sh</i></p>
+            <form method="post">
+                <div class="exec-install">
+                    <label for="hostname">IP da VPS:</label>
+                    <input type="text" name="hostname" id="hostname" required>
+                </div>
+                <div class="exec-install">
+                    <label for="password">Senha:</label>
+                    <input type="password" name="password" id="password" required>
+                </div>
+                <button type="submit" class="button-exec">Executar Script</button>
+            </form>
+        </div>
+
+        {% if output %}
+            <div class="mt-4">
+                <h3>Resultados:</h3>
+                <pre>{{ output }}</pre>
+            </div>
+        {% endif %}
+
+        {% if error %}
+            <div class="mt-4">
+                <h3>Erro:</h3>
+                <pre>{{ error }}</pre>
+            </div>
+        {% endif %}
     </div>
-
-    <script>
-        function addVPSField() {
-            var num_vps = document.getElementById('num_vps').value;
-            var vps_fields = document.getElementById('vps_fields');
-
-            vps_fields.innerHTML = '';
-
-            for (var i = 1; i <= num_vps; i++) {
-                var html = `
-                    <div class="mb-3">
-                        <h5 class="text-dark">VPS ${i}</h5>
-                        <label for="ip_${i}" class="form-label">IP:</label>
-                        <input type="text" name="ip_${i}" class="form-control" id="ip_${i}" required>
-                        <label for="username_${i}" class="form-label">Nome de Usuário:</label>
-                        <input type="text" name="username_${i}" class="form-control" id="username_${i}" required>
-                        <label for="password_${i}" class="form-label">Senha:</label>
-                        <input type="password" name="password_${i}" class="form-control" id="password_${i}" required>
-                    </div>
-                `;
-                vps_fields.innerHTML += html;
-            }
-        }
-    </script>
 </body>
 </html>
+
+<script>
+    function addVPSField() {
+        var num_vps = document.getElementById('num_vps').value;
+        var vps_fields = document.getElementById('vps_fields');
+
+        vps_fields.innerHTML = '';
+
+        for (var i = 1; i <= num_vps; i++) {
+            var html = `
+                
+                <div class="vps-fields">
+                    <p>VPS ${i}</p>
+                    <div class="field">
+                        <label for="ip_${i}">IP:</label>
+                        <input type="text" name="ip_${i}" id="ip_${i}" required>   
+                    </div>
+                    <div class="field">                    
+                        <label for="username_${i}">Nome de Usuário:</label>
+                        <input type="text" name="username_${i}" id="username_${i}" required> 
+                    </div>
+                    <div class="field">
+                        <label for="password_${i}">Senha:</label>
+                        <input type="password" name="password_${i}" id="password_${i}" required>    
+                    </div>    
+                </div>
+            `;
+            vps_fields.innerHTML += html;
+        }
+    }
+</script>
+
+<style>
+
+    body{
+        background-color: #2e2e2e; 
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-style: normal;
+    }
+
+    .vps-commands{
+        display: flex;
+        background-color: #262525;
+        border-radius: 5px;
+        padding: 20px 40px;
+        color: #DEDEDE;
+    }
+
+    .att-vps{
+        width: 60%;
+        margin-right: 80px;
+    }
+
+    .vps-commands p{
+        font-size: 18px;
+        font-weight: 700;
+    }
+
+    .vps-commands button{
+        padding: 8px;
+        border: none;
+        outline: none;
+        color: #fff;
+        cursor: pointer;
+        border-radius: 4px;
+        margin-bottom: 10px;
+    }
+
+    .vps-commands .add-vps{
+        background-color: #37A581;
+        margin-right: 10px;
+    }
+
+    .vps-commands .button-exec{
+        background-color: #627DCB;
+    }
+
+    .vps-commands .num-vps,
+    .vps-commands .exec-install{
+        display: flex;
+        gap: 10px;
+        padding-bottom: 20px;
+        align-items: center;
+    }
+
+    .vps-commands .exec-install label{
+        width: 100px;
+    }
+
+    .vps-commands input{
+        outline: none;
+        border-radius: 2.315px;
+        border: 1.157px solid rgba(222, 222, 222, 0.50);
+        background: rgba(246, 246, 246, 0.10);
+        padding: 5px;
+        color: #fff;
+    }
+
+    .vps-commands .vps-fields{
+        border-bottom: 1px solid rgba(222, 222, 222, 0.50);
+        padding-bottom: 20px;
+        display: flex;
+        gap: 10px;
+        flex-direction: column;
+    }
+
+    .vps-commands .vps-fields:last-child{
+        border: none;
+    }
+
+    .vps-commands .vps-fields .field{
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .vps-commands .vps-fields .field label{
+        width: 20%;
+    }
+
+    .vps-commands .vps-fields .field input{
+        width: 80%;
+    }
+</style>
